@@ -15,4 +15,3 @@ export default function Message({ text, fromUser }) {
         </div>
     );
 }
-}
