@@ -28,6 +28,26 @@
   color: #61dafb;
 }
 
+.centered-flex{
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.large-purple-button{
+  background-color: rgb(180, 51, 180);
+  border-radius: 10%;
+  height:7vh;
+  width:20vh;
+  width:auto;
+  
+}
+.large-scaling-input{
+  font-size: large;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

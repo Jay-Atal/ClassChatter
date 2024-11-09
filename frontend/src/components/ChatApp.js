@@ -2,10 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import SocketIO from 'socket.io-client';
 import ChatWindow from './ChatWindow';
 import MessageInput from './MessageInput.js';
+import Codeinput from './codeinput.js';
 
 export default function ChatApp() {
     const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
+    const [inRoom,setInRoom] = useState(false);
 
     const handleMessageResponse = useCallback((data) => {
         console.log('MessageResponse: ' + data.message);
@@ -41,11 +43,22 @@ export default function ChatApp() {
         })
     }
 
+    const handleJoinRoom = ()=>{
+        setInRoom(true)
+    }
+
+    if(inRoom){
     return (
         <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
             <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
             <MessageInput onSendMessage={handleSendMessage} />
         </div>
     );
+    }
+    else{
+        return(
+            <Codeinput updater={handleJoinRoom}/>
+        );
+    }
 }
  
