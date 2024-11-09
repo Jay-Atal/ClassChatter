@@ -1,13 +1,21 @@
+import uuid
+
 import bson
 # from flask_pymongo import PyMongo
-from flask import Flask, render_template
-from flask_socketio import SocketIO, send, join_room, leave_room
-
+from flask import Flask, render_template, request
+from flask_socketio import SocketIO, send, join_room, leave_room, emit
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", transport=['websocket'])
 
 rooms = {}
+
+
+class Room:
+    def __init__(self, room_id, host_id):
+        self.room_id = room_id
+        self.host_id = host_id
+        self.connected_users = set()
 
 
 @app.route('/')
@@ -19,10 +27,12 @@ def hello():
 @socketio.on('host')
 def on_host():
     pass
-    # room_id = str(uuid.uuid4())  # Generate a unique room ID
-    # rooms[room_id] = []  # Create a new room with an empty message list (you can store messages in DB)
-    # join_room(room_id)  # Join the new room
-    # emit('message', f'Room {room_id} created. You are now the host.', room=room_id)
+    room_id = str(uuid.uuid4())  # Generate a unique room ID
+    host_id = request.sid
+    new_room = Room(room_id, host_id)  # Create a new room with an empty message list (you can store messages in DB)
+    new_room.connected_users.add(host_id)  # Add the host to the room
+    join_room(room_id)  # Join the new room
+    emit('message', f'Room {room_id} created. You are now the host.', room=room_id)
 
 
 # SocketIO event for joining an existing room
@@ -66,5 +76,4 @@ def get_messages():
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000)
-
+    socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
