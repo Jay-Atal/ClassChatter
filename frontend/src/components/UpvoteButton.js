@@ -9,14 +9,12 @@ export default function UpvoteButton({ fromUser, onUpvote }) {
         if(!isUpvoted){
          newCount = upvoteCount + 1;
         }
-        
-
         else{
          newCount = upvoteCount - 1;
         }
         setisUpvoted(!isUpvoted);
         setUpvoteCount(newCount);
-        onUpvote(newCount)
+        onUpvote(this)
     };
 
     return (
