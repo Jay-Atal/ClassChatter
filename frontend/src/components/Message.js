@@ -10,6 +10,7 @@ export default function Message({ text, fromUser }) {
 
     const handleUpvote = (count) => {
         if (count >= 1) setHasUpvote(true);
+        else setHasUpvote(false);
     };
 
     return (
