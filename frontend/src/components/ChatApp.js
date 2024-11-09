@@ -35,7 +35,7 @@ export default function ChatApp() {
         }
     };
 
-    const handleSendUpvote = (count) => {
+    const handleSendUpvote = (count, increment) => {
         socket.emit('upvote', {
 
         })
