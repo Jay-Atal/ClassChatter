@@ -12,7 +12,7 @@ socketio = SocketIO(app, cors_allowed_origins="*", transport=['websocket'])
 
 
 rooms: Dict[str, Room] = {}
-
+rooms["msg_ids"] = 'a'
 
 class Room:
     def __init__(self, room_id, host_id):
@@ -51,7 +51,7 @@ def on_join(room_id):
 
 
 # SocketIO event for receiving a message
-@socketio.on('message')
+@socketio.on('message', )
 def handle_receive_message(msg):
     print(f"Received message: {msg}")
     room_id = msg.get('room_id')
@@ -62,9 +62,12 @@ def handle_receive_message(msg):
 
     # Make sure the user is in the room and the room exists
     if room_id in rooms and request.sid in rooms[room_id].connected_users:
-        emit('message', {'text': message, 'messageId': 1}, to=room_id)
+        emit('message_ack', {'text': message}, to=room_id);
     else:
-        emit('message_error', {}, to=request.sid)
+        emit('message_error', {'messageId': rooms["msg_ids"]}, to=request.sid);
+
+    rooms["msg_ids"] += 'a'
+    print(rooms["msg_ids"])
 
     # MESSAGES TO SEND
     # emit('message_error', {})
