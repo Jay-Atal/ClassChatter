@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UpvoteButton from './UpvoteButton.js';
 
-export default function Message({ text, fromUser }) {
+export default function Message({ text, fromUser, onUpvote }) {
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [hasUpvote, setHasUpvote] = useState(false);
 
@@ -10,6 +10,7 @@ export default function Message({ text, fromUser }) {
 
     const handleUpvote = (count) => {
         if (count >= 1) setHasUpvote(true);
+        onUpvote(count)
     };
 
     return (
