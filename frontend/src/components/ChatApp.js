@@ -9,13 +9,11 @@ export default function ChatApp() {
 
     const handleMessageResponse = useCallback((data) => {
         console.log('MessageResponse: ' + data.message);
-        setMessages([...messages, { data, fromUser: true }]);
-    }, [messages])
+    }, [])
 
     const handleUpvoteResponse = useCallback((data) => {
         console.log('UpvoteResponse: ' + data.message);
-        setMessages([...messages, { data, fromUser: true }]);
-    }, [messages])
+    }, [])
 
     useEffect(() => {
         const newSocket = SocketIO.connect('http://localhost:5000');
