@@ -1,19 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import SocketIO from 'socket.io-client';
 import ChatWindow from './ChatWindow';
 import MessageInput from './MessageInput.js';
 
 export default function ChatApp() {
     const [messages, setMessages] = useState([]);
+    const [socket, setSocket] = useState(null);
+
+    const handleMessageResponse = useCallback((data) => {
+        console.log('MessageResponse: ' + data.message);
+        setMessages([...messages, { data, fromUser: true }]);
+    }, [messages])
+
+    const handleUpvoteResponse = useCallback((data) => {
+        console.log('UpvoteResponse: ' + data.message);
+        setMessages([...messages, { data, fromUser: true }]);
+    }, [messages])
+
+    useEffect(() => {
+        const newSocket = SocketIO.connect('http://localhost:5000');
+        setSocket(newSocket);
+        newSocket.on('message', handleMessageResponse);
+        newSocket.on('upvote', handleUpvoteResponse);
+        return () => {
+            newSocket.disconnect();
+        };
+    }, [handleMessageResponse, handleUpvoteResponse]);
 
     const handleSendMessage = (text) => {
         if (text.trim()) {
+            console.log(text)
             setMessages([...messages, { text, fromUser: true }]);
+            socket.emit('message', {
+                'message': text,
+            })
         }
     };
 
+    const handleSendUpvote = (count) => {
+        socket.emit('upvote', {
+
+        })
+    }
+
     return (
         <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-            <ChatWindow messages={messages} />
+            <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
             <MessageInput onSendMessage={handleSendMessage} />
         </div>
     );
