@@ -1,0 +1,21 @@
+services:
+  backend:
+    image: backend
+    build: ./backend
+    environment:
+      FLASK_ENV: development
+    ports:
+      - "50000:5000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    image: frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app               # Mount frontend code to /app in container
+      - /app/node_modules             # Avoid node_modules conflict on the host
+    depends_on:
+      - backend
