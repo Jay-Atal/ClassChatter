@@ -2,9 +2,19 @@ import React, { useState } from 'react';
 
 export default function UpvoteButton({ fromUser, onUpvote }) {
     const [upvoteCount, setUpvoteCount] = useState(0);
+    const [isUpvoted,setisUpvoted] = useState(false);
 
     const handleUpvoteClick = () => {
-        const newCount = upvoteCount + 1;
+        let newCount;
+        if(!isUpvoted){
+         newCount = upvoteCount + 1;
+        }
+        
+
+        else{
+         newCount = upvoteCount - 1;
+        }
+        setisUpvoted(!isUpvoted);
         setUpvoteCount(newCount);
         onUpvote(newCount)
     };
