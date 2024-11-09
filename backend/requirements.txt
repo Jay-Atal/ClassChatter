@@ -3,3 +3,4 @@ Flask
 pymongo[srv]
 Flask-PyMongo
 Flask-SocketIO
+bson

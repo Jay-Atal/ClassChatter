@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UpvoteButton from './UpvoteButton.js';
 
-export default function Message({ text, fromUser }) {
+export default function Message({ text, fromUser, onUpvote }) {
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [hasUpvote, setHasUpvote] = useState(false);
 
@@ -9,12 +9,15 @@ export default function Message({ text, fromUser }) {
     const handleMouseLeave = () => setIsHighlighted(false);
 
     const handleUpvote = (count) => {
-        if (count >= 1) setHasUpvote(true);
+        if (count >= 1) {
+            setHasUpvote(true);
+            onUpvote(count, !isHighlighted);
+        }
         else setHasUpvote(false);
     };
 
     return (
-        <div 
+        <div
             style={{ textAlign: fromUser ? 'right' : 'left' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -28,7 +31,7 @@ export default function Message({ text, fromUser }) {
                 position: 'relative'
             }}>
                 {text}
-                
+
                 {(isHighlighted || hasUpvote) && (
                     <UpvoteButton fromUser={fromUser} onUpvote={handleUpvote} />
                 )}
