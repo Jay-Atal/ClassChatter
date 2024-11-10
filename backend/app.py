@@ -240,7 +240,7 @@ def add_message_to_cluster(room_id, query_text, message_id):
         },
         {
             "$match": {
-                "score": { "$gt": 0.35 }  # Filter for score greater than 0.8
+                "score": { "$gt": 1 }  # Filter for score greater than 0.8
             }
         },
         {
