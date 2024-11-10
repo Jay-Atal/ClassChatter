@@ -1,5 +1,5 @@
 
-export default function CodeBox({val,setVal}){
+export default function CodeBox({val, setVal}){
 
     
     return(<input

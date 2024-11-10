@@ -1,8 +1,8 @@
-export default function CodeButton({val,setVal,update}){
+export default function CodeButton({val, setVal, join}){
 
     const handleClick = () =>{
         setVal('')
-        update()
+        join()
     }
     return(
         <button onClick={handleClick} class= 'large-purple-button'>

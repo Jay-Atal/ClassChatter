@@ -51,7 +51,7 @@ def on_join(room_id):
 
 
 # SocketIO event for receiving a message
-@socketio.on('message', )
+@socketio.on('message')
 def handle_receive_message(msg):
     print(f"Received message: {msg}")
     room_id = msg.get('room_id')
@@ -62,9 +62,7 @@ def handle_receive_message(msg):
 
     # Make sure the user is in the room and the room exists
     if room_id in rooms and request.sid in rooms[room_id].connected_users:
-        emit('message_ack', {'text': message}, to=room_id);
-    else:
-        emit('message_error', {'messageId': rooms["msg_ids"]}, to=request.sid);
+        emit('message', {'text': message}, to=room_id)
 
     rooms["msg_ids"] += 'a'
     print(rooms["msg_ids"])
