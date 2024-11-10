@@ -18,7 +18,7 @@ Register-EngineEvent PowerShell.Exiting -Action { Cleanup }
 
 # Navigate to the backend directory and start the Flask server
 Set-Location -Path "backend"
-$flaskProcess = Start-Process -NoNewWindow -FilePath "flask" -ArgumentList "run --host=0.0.0.0" -PassThru
+$flaskProcess = Start-Process -NoNewWindow -FilePath "flask" -ArgumentList "run --port=50000 --host=0.0.0.0" -PassThru
 
 # Navigate to the frontend directory and start npm
 Set-Location -Path "../frontend"

@@ -17,8 +17,8 @@ export default function ChatWindow({ messages, onUpvote }) {
                 flexDirection: 'column',
                 marginTop: 'auto'
             }}>
-                {messages.map((msg, index) => (
-                    <Message key={index} text={msg.text} fromUser={msg.fromUser} onUpvote={onUpvote} />
+                {messages.map((metadata, index) => (
+                    <Message key={index} metadata={metadata} onUpvote={onUpvote} />
                 ))}
                 <div ref={messagesEndRef} />
             </div>

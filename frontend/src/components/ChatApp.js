@@ -8,44 +8,71 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // TODO: have roomId as parameter
 export default function ChatApp() {
-    const [messages, setMessages] = useState([]);
+    const [messageTable, setMessageTable] = useState({});
+    const [messageDisplay, setMessageDisplay] = useState([]);
     const [socket, setSocket] = useState(null);
     // should be null
     const [roomId, setRoomId] = useState("room_id")
     const [inRoom, setInRoom] = useState(false);
 
     const handleMessageResponse = useCallback((data) => {
-        console.log('MessageResponse: ' + data.text);
-        let entry = { text: data.text, fromUser: false };
-        setMessages((messages) => [...messages, entry]);
-        toast(data.text)
+        let entry = {
+            message: data.message,
+            messageId: data.messageId,
+            // upvotes: data.upvotes,
+            // fromUser: data.fromUser,
+        };
+        setMessageTable((messageTable) => ({...messageTable, [data.messageId]: entry}));
+        setMessageDisplay((messageDisplay) => [...messageDisplay, entry]);
+        console.log(entry);
+        toast(data.message);
     }, []);
+
+    // const handleUpvoteResponse = useCallback((data) => {
+    //     console.log('UpvoteResponse: ' + data.message);
+    // }, []);
+
+  const handleJoinResponse = (roomId)=> {
+        setInRoom(true);
+        // setRoomId(roomId);
+
+        // socket.emit('join', {
+        //     'room_id': roomId
+        // }, (response) => {
+        //
+        //     console.log(roomId)
+        // })
+    }
+
+    // const handleHostResponse = ()=> {
+    //     setInRoom(true)
+    // }
 
     useEffect(() => {
         const newSocket = SocketIO.connect('http://localhost:50000');
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
+        // newSocket.on('upvote', handleUpvoteResponse);
+        // newSocket.on('host', handleHostResponse)
+        // newSocket.on('join', handleJoinResponse)
         return () => {
             newSocket.disconnect();
         };
-    }, []);
+    }, [handleMessageResponse]);
 
-    const handleSendMessage = (text) => {
-        if (text.trim()) {
-            const newEntry = { text, fromUser: true };
-            setMessages(prevMessages => [...prevMessages, newEntry]);
-            
-            // Send the message to the server
+    const handleSendMessage = (message) => {
+        if (message.trim()) {
             socket.emit('message', {
-                'room_id': roomId,
-                'message': text
+                'roomId': roomId,
+                'message': message,
             });
         }
     };
 
-    const handleSendUpvote = (isUpvoted) => {
+    const handleSendUpvote = (isUpvoted, metadata) => {
         socket.emit('upvote', {
-            'room_id': roomId,
+            'roomId': roomId,
+            'messageId': metadata.messageId,
             'increment': isUpvoted,
         });
     };
@@ -62,7 +89,7 @@ export default function ChatApp() {
         return (
             <><ToastContainer/>
             <div className="chat-container">
-                <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
+                <ChatWindow messages={messageDisplay} onUpvote={handleSendUpvote} />
                 <MessageInput onSendMessage={handleSendMessage} />
             </div></>
         );

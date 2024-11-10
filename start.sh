@@ -13,7 +13,7 @@ trap cleanup EXIT
 
 # Start the Flask server in the background and get its process ID
 cd backend
-flask run --host=0.0.0.0 &
+flask run --port=50000 --host=0.0.0.0 &
 flask_pid=$!
 
 # Start the npm server in the background and get its process ID
