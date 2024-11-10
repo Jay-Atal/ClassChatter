@@ -1,1 +1,26 @@
-/__pycache/
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+myenv/
+venv/
+ENV/
+env/
+.env/
+.venv/
+
+# IDE specific files (optional but recommended)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log

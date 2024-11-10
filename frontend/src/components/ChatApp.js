@@ -17,26 +17,11 @@ export default function ChatApp() {
         let entry = {text: data.text, fromUser: false};
         setMessages((messages) => [...messages, entry]);
     }, []);
-    //
-    // const handleUpvoteResponse = useCallback((data) => {
-    //     console.log('UpvoteResponse: ' + data.message);
-    // }, []);
-
-    // const handleJoinResponse = ()=> {
-    //     setInRoom(true)
-    // }
-
-    // const handleHostResponse = ()=> {
-    //     setInRoom(true)
-    // }
 
     useEffect(() => {
         const newSocket = SocketIO.connect('http://localhost:50000');
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
-        // newSocket.on('upvote', handleUpvoteResponse);
-        // newSocket.on('host', handleHostResponse)
-        // newSocket.on('join', handleJoinResponse)
         return () => {
             newSocket.disconnect();
         };
@@ -44,13 +29,14 @@ export default function ChatApp() {
 
     const handleSendMessage = (text) => {
         if (text.trim()) {
+            // Immediately add the message to the UI
+            const newEntry = { text, fromUser: true };
+            setMessages(prevMessages => [...prevMessages, newEntry]);
+            
+            // Send the message to the server
             socket.emit('message', {
                 'room_id': roomId,
                 'message': text
-            }, (response) => {
-                var entry = {text, fromUser: true, 'response': response}
-                setMessages([...messages, entry]);
-                console.log(entry)
             });
         }
     };
@@ -58,7 +44,6 @@ export default function ChatApp() {
     const handleSendUpvote = (isUpvoted) => {
         socket.emit('upvote', {
             'room_id': roomId,
-            // 'message_id': message.messageId,
             'increment': isUpvoted,
         })
     };
