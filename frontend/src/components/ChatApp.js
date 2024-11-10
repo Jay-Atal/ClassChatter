@@ -16,13 +16,13 @@ export default function ChatApp() {
 
     const handleMessageResponse = useCallback((data) => {
         console.log('MessageResponse: ' + data.text);
-        let entry = {text: data.text, fromUser: false};
+        let entry = { text: data.text, fromUser: false };
         setMessages((messages) => [...messages, entry]);
         toast(data.text)
     }, []);
 
     useEffect(() => {
-        const newSocket = SocketIO.connect(`${window.location.protocol}//${window.location.hostname}:50000`);
+        const newSocket = SocketIO.connect('http://localhost:50000');
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
         return () => {
@@ -32,7 +32,6 @@ export default function ChatApp() {
 
     const handleSendMessage = (text) => {
         if (text.trim()) {
-            // Immediately add the message to the UI
             const newEntry = { text, fromUser: true };
             setMessages(prevMessages => [...prevMessages, newEntry]);
             
@@ -48,16 +47,16 @@ export default function ChatApp() {
         socket.emit('upvote', {
             'room_id': roomId,
             'increment': isUpvoted,
-        })
+        });
     };
 
     const handleJoinRoom = () => {
         setInRoom(true);
-    }
+    };
 
     const handleHostRoom = () => {
         setInRoom(true);
-    }
+    };
 
     if(inRoom){
     return (
