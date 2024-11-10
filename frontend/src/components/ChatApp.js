@@ -13,7 +13,9 @@ export default function ChatApp() {
     const [inRoom, setInRoom] = useState(false);
 
     const handleMessageResponse = useCallback((data) => {
-        console.log('MessageResponse: ' + data.message);
+        console.log('MessageResponse: ' + data.text);
+        let entry = {'text': data.text, fromUser: false};
+        setMessages([...messages, entry]);
     }, []);
     //
     // const handleUpvoteResponse = useCallback((data) => {

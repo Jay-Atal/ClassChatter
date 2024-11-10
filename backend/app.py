@@ -20,7 +20,6 @@ class Room:
         self.host_id = host_id
         self.connected_users = set()
 
-
 @app.route('/')
 def hello():
     return 'Hello, World!'
@@ -57,15 +56,15 @@ def handle_receive_message(msg):
     room_id = msg.get('room_id')
     message = msg.get('message')
 
-    if not room_id and message:
-        return
+    # if not room_id and message:
+    #     return
 
     # Make sure the user is in the room and the room exists
-    if room_id in rooms and request.sid in rooms[room_id].connected_users:
-        emit('message', {'text': message}, to=room_id)
-
+    # if room_id in rooms and request.sid in rooms[room_id].connected_users:
+    #     pass
+    emit('message', {'text': message}, broadcast=True)
     rooms["msg_ids"] += 'a'
-    print(rooms["msg_ids"])
+    print(rooms)
 
     # MESSAGES TO SEND
     # emit('message_error', {})
