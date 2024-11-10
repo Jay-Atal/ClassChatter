@@ -19,7 +19,7 @@ export default function ChatApp() {
     }, []);
 
     useEffect(() => {
-        const newSocket = SocketIO.connect('http://localhost:50000');
+        const newSocket = SocketIO.connect(`${window.location.protocol}//${window.location.hostname}:50000`);
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
         return () => {
