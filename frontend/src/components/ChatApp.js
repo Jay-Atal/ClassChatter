@@ -8,6 +8,8 @@ import Codeinput from './codeinput.js';
 export default function ChatApp() {
     const [messages, setMessages] = useState(new Map());
     const [socket, setSocket] = useState(null);
+    const [roomId,setRoomId] = useState('room_id')
+    const [inRoom,setInRoom] = useState(false)
 
     const handleMessageResponse = useCallback((data) => {
         console.log('MessageResponse: ' + data.message);
