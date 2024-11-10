@@ -3,6 +3,8 @@ import SocketIO from 'socket.io-client';
 import ChatWindow from './ChatWindow';
 import MessageInput from './MessageInput.js';
 import CodeInput from './CodeInput.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // TODO: have roomId as parameter
 export default function ChatApp() {
@@ -16,6 +18,7 @@ export default function ChatApp() {
         console.log('MessageResponse: ' + data.text);
         let entry = {text: data.text, fromUser: false};
         setMessages((messages) => [...messages, entry]);
+        toast(data.text)
     }, []);
 
     useEffect(() => {
@@ -58,10 +61,13 @@ export default function ChatApp() {
 
     if(inRoom){
     return (
+        <>
+        <ToastContainer/>
         <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
             <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
             <MessageInput onSendMessage={handleSendMessage} />
         </div>
+        </>
     );
     }
     else{
