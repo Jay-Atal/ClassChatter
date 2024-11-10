@@ -8,12 +8,38 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // TODO: have roomId as parameter
 export default function ChatApp() {
-    const [messageTable, setMessageTable] = useState({});
-    const [messageDisplay, setMessageDisplay] = useState([]);
+    const [messageTable, setMessageTable] = useState(() => {
+        const savedElements = localStorage.getItem('messageTable');
+        return savedElements ? JSON.parse(savedElements) : {};});
+    const [messageDisplay, setMessageDisplay] = useState(() => {
+        const savedElements = localStorage.getItem('messageDisplay');
+        return savedElements ? JSON.parse(savedElements) : [];});
     const [socket, setSocket] = useState(null);
     // should be null
-    const [roomId, setRoomId] = useState("room_id")
-    const [inRoom, setInRoom] = useState(false);
+    const [roomId, setRoomId] = useState(() => {
+        const savedElements = localStorage.getItem('roomId');
+        return savedElements ? JSON.parse(savedElements) : 'room_id';});
+    const [inRoom, setInRoom] = useState(() => {
+        const savedElements = localStorage.getItem('inRoom');
+        return savedElements ? JSON.parse(savedElements) : false;});
+
+    useEffect(() => {
+        
+        localStorage.setItem('messageTable', JSON.stringify(messageTable));
+      }, [messageTable]);
+    useEffect(() => {
+        
+        localStorage.setItem('messageDisplay', JSON.stringify(messageDisplay));
+      }, [messageDisplay]);
+    useEffect(() => {
+        
+        localStorage.setItem('roomId', JSON.stringify(roomId));
+      }, [roomId]);
+    useEffect(() => {
+        
+        localStorage.setItem('inRoom', JSON.stringify(inRoom));
+      }, [inRoom]);
+    
 
     const handleMessageResponse = useCallback((data) => {
         const entry = {
@@ -79,8 +105,9 @@ export default function ChatApp() {
         });
     };
 
-    const handleJoinRoom = () => {
+    const handleJoinRoom = (id) => {
         setInRoom(true);
+        setRoomId(id)
     };
 
     const handleHostRoom = () => {
@@ -91,6 +118,7 @@ export default function ChatApp() {
         return (
             <><ToastContainer/>
             <div className="chat-container">
+                <h1>{roomId}</h1>
                 <ChatWindow messages={messageDisplay} onUpvote={handleSendUpvote} />
                 <MessageInput onSendMessage={handleSendMessage} />
             </div></>

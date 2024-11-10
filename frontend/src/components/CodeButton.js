@@ -1,7 +1,7 @@
 export default function CodeButton({val, setVal, join}){
     const handleClick = () => {
+        join(val);
         setVal('');
-        join(); // join(val);
     }
 
     return (
