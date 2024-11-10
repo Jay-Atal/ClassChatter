@@ -60,10 +60,11 @@ export default function ChatApp() {
 
     if (inRoom) {
         return (
+            <><ToastContainer/>
             <div className="chat-container">
                 <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
                 <MessageInput onSendMessage={handleSendMessage} />
-            </div>
+            </div></>
         );
     } else {
         return (
