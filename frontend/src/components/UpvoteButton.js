@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-export default function UpvoteButton({ fromUser, onUpvote }) {
+export default function UpvoteButton({ metadata, onUpvote }) {
     const [upvoteCount, setUpvoteCount] = useState(0);
     const [isUpvoted,setisUpvoted] = useState(false);
 
+    // use metadata instead for count
     const handleUpvoteClick = () => {
+        metadata.message = "ayo????!?!??!!?!?"
         let newCount;
         if(!isUpvoted){
-         newCount = upvoteCount + 1;
+            newCount = upvoteCount + 1;
         }
         else{
-         newCount = upvoteCount - 1;
+            newCount = upvoteCount - 1;
         }
         setisUpvoted(!isUpvoted);
         setUpvoteCount(newCount);
@@ -23,7 +25,7 @@ export default function UpvoteButton({ fromUser, onUpvote }) {
             style={{
                 position: 'absolute',
                 top: '50%',
-                left: fromUser ? '-35px' : '100%',
+                left: metadata.fromUser ? '-35px' : '100%',
                 transform: 'translateY(-50%)',
                 cursor: 'pointer',
                 fontSize: '20px',

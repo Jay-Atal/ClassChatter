@@ -20,6 +20,7 @@ class Room:
         self.host_id = host_id
         self.connected_users = set()
 
+
 @app.route('/')
 def hello():
     return 'Hello, World!'
@@ -53,33 +54,43 @@ def on_join(room_id):
 @socketio.on('message')
 def handle_receive_message(msg):
     print(f"Received message: {msg}")
-    room_id = msg.get('room_id')
+    room_id = msg.get('roomId')
     message = msg.get('message')
 
-    # if not room_id and message:
-    #     return
+    if not (room_id and message):
+        return
 
     # Make sure the user is in the room and the room exists
+    # TODO: get rooms working
     # if room_id in rooms and request.sid in rooms[room_id].connected_users:
-    #     pass
-    emit('message', {'text': message}, broadcast=True, include_self=False)
-    rooms["msg_ids"] += 'a'
-    print(rooms)
+    #     message_id = rooms["msg_ids"]
+    #     emit('message', {
+    #         'message': message, 'fromUser': True, 'messageId': message_id
+    #     }, to=request.sid)
+    #     emit('message', {
+    #         'message': message, 'fromUser': False, 'messageId': message_id
+    #     }, to=room_id, skip_sid=request.sid)
+    # else:
+    #     emit('popup', f'Message failed to send.', to=request.sid)
 
-    # MESSAGES TO SEND
-    # emit('message_error', {})
+    emit('message', {'messageId': rooms['msg_ids'], 'message': message}, broadcast=True)
+    rooms['msg_ids'] += 'a'
+    print(rooms)
 
 
 # SocketIO event for upvoting (or other custom actions)
 @socketio.on('upvote')
 def handle_upvote(data):
     print(f"Received upvote: {data}")
-    post_id = data.get('post_id')
-    room_id = data.get('room_id')
-    if not room_id and post_id:
+    room_id = data.get('roomId')
+    message_id = data.get('messageId')
+    upvoted = data.get('upvoted')
+
+    if not (room_id and message_id):
         return
+
     # TODO: check database for upvote count and users, increment it,
-    emit('message', {'post_id': post_id, 'action': 'upvoted'}, broadcast=True, include_self=False)
+    emit('message', {'messageId': message_id, 'upvotes': 100}, broadcast=True, include_self=False)
 
 
 # Flask route for serving the chat session (for example, if using MongoDB)
