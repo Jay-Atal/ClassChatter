@@ -90,7 +90,7 @@ def handle_upvote(data):
         return
 
     # TODO: check database for upvote count and users, increment it,
-    emit('message', {'messageId': message_id, 'upvotes': 100}, broadcast=True, include_self=False)
+    emit('upvote', {'messageId': message_id, 'upvotes': 100}, broadcast=True)
 
 
 # Flask route for serving the chat session (for example, if using MongoDB)

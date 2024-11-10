@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UpvoteButton from './UpvoteButton.js';
 
+// Slightly scuffed, has to reinitialize popup to update
 export default function Message({ metadata, onUpvote }) {
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [hasUpvote, setHasUpvote] = useState(false);
@@ -9,13 +10,13 @@ export default function Message({ metadata, onUpvote }) {
     const handleMouseLeave = () => setIsHighlighted(false);
 
     // TODO: use metadata instead to count
-    const handleUpvote = (upvoteCount, isUpvoted) => {
-        if (upvoteCount >= 1) {
+    const handleUpvote = (increment) => {
+        if (metadata.upvotes >= 1) {
             setHasUpvote(true);
         } else {
             setHasUpvote(false);
         }
-        onUpvote(isUpvoted, metadata);
+        onUpvote(increment, metadata);
     };
 
     return (

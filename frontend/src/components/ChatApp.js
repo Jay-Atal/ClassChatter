@@ -16,21 +16,26 @@ export default function ChatApp() {
     const [inRoom, setInRoom] = useState(false);
 
     const handleMessageResponse = useCallback((data) => {
-        let entry = {
+        const entry = {
             message: data.message,
             messageId: data.messageId,
-            // upvotes: data.upvotes,
+            // TODO: don't hardcode
+            upvotes: 0,
             // fromUser: data.fromUser,
         };
         setMessageTable((messageTable) => ({...messageTable, [data.messageId]: entry}));
         setMessageDisplay((messageDisplay) => [...messageDisplay, entry]);
         console.log(entry);
         toast(data.message);
-    }, []);
+    }, [messageTable, messageDisplay]);
 
-    // const handleUpvoteResponse = useCallback((data) => {
-    //     console.log('UpvoteResponse: ' + data.message);
-    // }, []);
+    const handleUpvoteResponse = useCallback((data) => {
+        let entry = messageTable[data.messageId];
+        if (entry) {
+            entry.upvotes = data.upvotes
+        }
+        console.log(messageTable)
+    }, [messageTable, messageDisplay]);
 
   const handleJoinResponse = (roomId)=> {
         setInRoom(true);
@@ -52,13 +57,13 @@ export default function ChatApp() {
         const newSocket = SocketIO.connect('http://localhost:50000');
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
-        // newSocket.on('upvote', handleUpvoteResponse);
+        newSocket.on('upvote', handleUpvoteResponse);
         // newSocket.on('host', handleHostResponse)
         // newSocket.on('join', handleJoinResponse)
         return () => {
             newSocket.disconnect();
         };
-    }, [handleMessageResponse]);
+    }, [handleMessageResponse, handleUpvoteResponse]);
 
     const handleSendMessage = (message) => {
         if (message.trim()) {
@@ -69,12 +74,13 @@ export default function ChatApp() {
         }
     };
 
-    const handleSendUpvote = (isUpvoted, metadata) => {
+    const handleSendUpvote = (increment, metadata) => {
         socket.emit('upvote', {
             'roomId': roomId,
             'messageId': metadata.messageId,
-            'increment': isUpvoted,
+            'increment': increment,
         });
+        console.log(metadata)
     };
 
     const handleJoinRoom = () => {

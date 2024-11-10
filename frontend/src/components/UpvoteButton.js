@@ -6,17 +6,16 @@ export default function UpvoteButton({ metadata, onUpvote }) {
 
     // use metadata instead for count
     const handleUpvoteClick = () => {
-        metadata.message = "ayo????!?!??!!?!?"
-        let newCount;
-        if(!isUpvoted){
-            newCount = upvoteCount + 1;
-        }
-        else{
-            newCount = upvoteCount - 1;
-        }
+        // let newCount;
+        // if(!isUpvoted){
+        //     newCount = upvoteCount + 1;
+        // }
+        // else{
+        //     newCount = upvoteCount - 1;
+        // }
+        // setUpvoteCount(newCount);
         setisUpvoted(!isUpvoted);
-        setUpvoteCount(newCount);
-        onUpvote(upvoteCount, isUpvoted);
+        onUpvote(!isUpvoted);
     };
 
     return (
@@ -25,14 +24,14 @@ export default function UpvoteButton({ metadata, onUpvote }) {
             style={{
                 position: 'absolute',
                 top: '50%',
-                left: metadata.fromUser ? '-35px' : '100%',
+                left: metadata.upvotes ? '-35px' : '100%',
                 transform: 'translateY(-50%)',
                 cursor: 'pointer',
                 fontSize: '20px',
-                color: upvoteCount > 0 ? '#007bff' : '#888'
+                color: metadata.upvotes > 0 ? '#007bff' : '#888'
             }}
         >
-            👍 {upvoteCount > 0 && <span>{upvoteCount}</span>}
+            👍 {metadata.upvotes > 0 && <span>{metadata.upvotes}</span>}
         </span>
     );
 }
