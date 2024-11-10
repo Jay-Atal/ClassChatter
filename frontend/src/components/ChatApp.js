@@ -58,20 +58,16 @@ export default function ChatApp() {
         setInRoom(true);
     };
 
-    if(inRoom){
-    return (
-        <>
-        <ToastContainer/>
-        <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-            <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
-            <MessageInput onSendMessage={handleSendMessage} />
-        </div>
-        </>
-    );
-    }
-    else{
-        return(
-            < CodeInput join={handleJoinRoom} host={handleHostRoom} />
+    if (inRoom) {
+        return (
+            <div className="chat-container">
+                <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
+                <MessageInput onSendMessage={handleSendMessage} />
+            </div>
+        );
+    } else {
+        return (
+            <CodeInput join={handleJoinRoom} host={handleHostRoom} />
         );
     }
 }
