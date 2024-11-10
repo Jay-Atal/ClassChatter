@@ -110,7 +110,8 @@ export default function ChatApp() {
     }, []);
 
     useEffect(() => {
-        const newSocket = SocketIO.connect('http://localhost:50000');
+        const newSocket = SocketIO.connect(`${window.location.protocol}//${window.location.hostname}:50000`);
+
         setSocket(newSocket);
 
         newSocket.on('message', handleMessageResponse);
@@ -204,16 +205,26 @@ export default function ChatApp() {
 
         const fetchClusters = async () => {
             try {
-                const response = await fetch(`/api/clusters/${roomId}`);
+                console.log("Fetching clusters for room:", roomId);
+                const response = await fetch(`http://localhost:50000/api/clusters/${roomId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
+                console.log("Received clusters data:", data);
                 setClusters(data);
             } catch (error) {
                 console.error('Error fetching clusters:', error);
             }
         };
 
+        // Initial fetch
         fetchClusters();
+
+        // Set up polling
         const interval = setInterval(fetchClusters, 5000);
+
+        // Cleanup
         return () => clearInterval(interval);
     }, [roomId, inRoom]);
 

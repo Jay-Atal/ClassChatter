@@ -514,45 +514,72 @@
     padding: 20px;
     overflow-y: auto;
     border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-.cluster-group {
-    background-color: var(--background-primary);
-    border-radius: 8px;
+.cluster-panel.collapsed {
+    width: 48px;
     padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid var(--border-color);
 }
 
-.cluster-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    color: var(--text-secondary);
-    font-size: 0.9em;
-}
-
-.cluster-message {
-    padding: 8px;
-    border-radius: 6px;
-    background-color: var(--background-secondary);
-    margin-bottom: 8px;
+.cluster-panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    margin-bottom: 16px;
 }
 
-.cluster-message p {
+.cluster-panel-header h2 {
     margin: 0;
+    font-size: 18px;
     color: var(--text-primary);
-    font-size: 0.9em;
 }
 
-.message-upvotes {
+.collapse-button {
+    background: none;
+    border: none;
     color: var(--text-secondary);
-    font-size: 0.8em;
-    white-space: nowrap;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.collapse-button:hover {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+}
+
+.cluster-message {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--background-primary);
+    margin-bottom: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.message-username {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.cluster-size {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.cluster-upvotes {
+    font-size: 14px;
+    color: var(--accent-color);
+    font-weight: 500;
 }
 
 .close-button {
@@ -876,4 +903,99 @@
 .room-key, .username {
     color: var(--info-text);
     background-color: var(--info-background);
+}
+
+/* Add to your existing CSS */
+.cluster-box {
+    background-color: var(--background-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cluster-box:hover {
+    border-color: var(--accent-color);
+}
+
+.cluster-box.expanded {
+    background-color: var(--background-secondary);
+}
+
+.cluster-box-header {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cluster-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cluster-messages {
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.cluster-message {
+    background-color: var(--background-primary);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+.message-text {
+    margin: 8px 0 0;
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.cluster-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cluster-size {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.cluster-upvotes {
+    font-size: 14px;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.message-username {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.message-upvotes {
+    font-size: 13px;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
