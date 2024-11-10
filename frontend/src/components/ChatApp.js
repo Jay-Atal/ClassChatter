@@ -14,8 +14,8 @@ export default function ChatApp() {
 
     const handleMessageResponse = useCallback((data) => {
         console.log('MessageResponse: ' + data.text);
-        let entry = {'text': data.text, fromUser: false};
-        setMessages([...messages, entry]);
+        let entry = {text: data.text, fromUser: false};
+        setMessages((messages) => [...messages, entry]);
     }, []);
     //
     // const handleUpvoteResponse = useCallback((data) => {
