@@ -6,7 +6,7 @@ import CodeInput from './CodeInput.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
+// TODO: have roomId as parameter
 export default function ChatApp() {
     const [messageTable, setMessageTable] = useState({});
     const [messageDisplay, setMessageDisplay] = useState([]);
@@ -85,20 +85,17 @@ export default function ChatApp() {
         setInRoom(true);
     };
 
-    if(inRoom){
-    return (
-        <>
-        <ToastContainer/>
-        <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-            <ChatWindow messages={messageDisplay} onUpvote={handleSendUpvote} />
-            <MessageInput onSendMessage={handleSendMessage} />
-        </div>
-        </>
-    );
-    }
-    else{
-        return(
-            < CodeInput join={handleJoinRoom} host={handleHostRoom} />
+    if (inRoom) {
+        return (
+            <><ToastContainer/>
+            <div className="chat-container">
+                <ChatWindow messages={messageDisplay} onUpvote={handleSendUpvote} />
+                <MessageInput onSendMessage={handleSendMessage} />
+            </div></>
+        );
+    } else {
+        return (
+            <CodeInput join={handleJoinRoom} host={handleHostRoom} />
         );
     }
 }
