@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // TODO: have roomId as parameter
 export default function ChatApp() {
+    const [inputValue,setInputValue] = useState('');
     const [messageTable, setMessageTable] = useState(() => {
         const savedElements = localStorage.getItem('messageTable');
         return savedElements ? JSON.parse(savedElements) : {};});
