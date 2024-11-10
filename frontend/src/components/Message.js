@@ -10,11 +10,7 @@ export default function Message({ metadata, onUpvote }) {
     const handleMouseLeave = () => setIsHighlighted(false);
 
     const handleUpvote = (increment) => {
-        if (metadata.upvotes >= 1) {
-            setHasUpvote(true);
-        } else {
-            setHasUpvote(false);
-        }
+        setHasUpvote(!hasUpvote);
         onUpvote(increment, metadata);
     };
 

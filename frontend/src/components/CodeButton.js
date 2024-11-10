@@ -1,7 +1,8 @@
 export default function CodeButton({val, setVal, join}){
     const handleClick = () => {
+        if (!val) return; // Don't proceed if no value
+        join(val.trim()); // Pass the trimmed room ID value
         setVal('');
-        join(); // join(val);
     }
 
     return (

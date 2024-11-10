@@ -3,6 +3,8 @@ import ChatApp from './components/ChatApp';
 import ThemeToggle from './components/ThemeToggle';
 import TextSizeControls from './components/TextSizeControls';
 import './styles/theme.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
@@ -32,6 +34,18 @@ function App() {
                 <h1>Class Chatter</h1>
             </header>
             <ChatApp />
+            <ToastContainer 
+                position="top-right" 
+                autoClose={5000} 
+                hideProgressBar 
+                newestOnTop 
+                closeOnClick 
+                rtl={false} 
+                pauseOnFocusLoss 
+                draggable 
+                pauseOnHover 
+                theme="light"
+            />
         </div>
     );
 }
