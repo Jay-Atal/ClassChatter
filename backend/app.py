@@ -62,7 +62,7 @@ def handle_receive_message(msg):
     # Make sure the user is in the room and the room exists
     # if room_id in rooms and request.sid in rooms[room_id].connected_users:
     #     pass
-    emit('message', {'text': message}, broadcast=True)
+    emit('message', {'text': message}, broadcast=True, include_self=False)
     rooms["msg_ids"] += 'a'
     print(rooms)
 
