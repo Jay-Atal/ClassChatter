@@ -24,7 +24,7 @@ export default function ChatApp() {
         };
         setMessageTable((messageTable) => ({...messageTable, [data.messageId]: entry}));
         setMessageDisplay((messageDisplay) => [...messageDisplay, entry]);
-        toast(data.message);
+        // toast(data.message);
     }, [messageTable, messageDisplay]);
 
     const handleUpvoteResponse = useCallback((data) => {
