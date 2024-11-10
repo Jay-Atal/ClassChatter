@@ -1,0 +1,469 @@
+/* Theme variables */
+:root {
+  /* Dark theme */
+  --dark-background-primary: #1c1c1e;
+  --dark-background-secondary: #2c2c2e;
+  --dark-text-primary: #ffffff;
+  --dark-text-secondary: #ebebf599;
+  --dark-border-color: #38383A;
+  --dark-message-user: #0A84FF33;  /* Apple blue with transparency */
+  --dark-message-other: #727273;  /* Apple dark grey with transparency */
+  --dark-chat-background: #141414;
+
+  /* Light theme */
+  --light-background-primary: #ffffff;
+  --light-background-secondary: #f5f5f5;
+  --light-text-primary: #000000;
+  --light-text-secondary: #666666;
+  --light-border-color: #e0e0e0;
+  --light-message-user: #007AFF33;  /* Apple blue with transparency */
+  --light-message-other: #E5E5EA;  /* Apple light grey with transparency */
+
+  /* Shared colors */
+  --accent-color: #0a84ff;  /* Apple blue */
+  --success-color: #32d74b;
+  --error-color: #ff453a;
+
+  /* Text size scale */
+  --text-scale: 1;  /* Default scale factor */
+  background-color: var(--background-primary);
+}
+
+/* Theme application */
+[data-theme='light'] {
+  --background-primary: var(--light-background-primary);
+  --background-secondary: var(--light-background-secondary);
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --border-color: var(--light-border-color);
+  --message-user: var(--light-message-user);
+  --message-other: var(--light-message-other);
+  --chat-background: var(--light-background-secondary);
+}
+
+[data-theme='dark'] {
+  --background-primary: var(--dark-background-primary);
+  --background-secondary: var(--dark-background-secondary);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --border-color: var(--dark-border-color);
+  --message-user: var(--dark-message-user);
+  --message-other: var(--dark-message-other);
+  --chat-background: var(--dark-chat-background);
+}
+
+/* Rest of your existing styles... */
+
+/* Message container updates */
+.chat-container {
+  width: 100%;
+  max-width: 90vw;  /* Allow more horizontal space */
+  min-width: 400px;
+  height: calc(100vh - 180px); /* Adjust height to account for increased padding */
+  margin: 30px auto; /* Increased margin from 20px to 30px */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--chat-background);  /* Use the chat background color */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);  /* Slightly stronger shadow for depth */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.message {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 18px;  /* More rounded corners like iMessage */
+  margin: 4px 8px;
+  position: relative;
+  max-width: 70%;
+  word-wrap: break-word;
+  font-size: calc(15px * var(--text-scale));
+  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui;
+}
+
+.message-user {
+  background-color: var(--message-user);
+  color: var(--text-primary);
+  margin-left: auto;
+  border-bottom-right-radius: 4px;  /* Apple-style message bubble shape */
+}
+
+.message-other {
+  background-color: var(--message-other);
+  color: var(--text-primary);
+  margin-right: auto;
+  border-bottom-left-radius: 4px;  /* Apple-style message bubble shape */
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  padding: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--background-primary);
+}
+
+/* Initial view styles */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--background-primary);
+}
+
+.welcome-card {
+  background-color: var(--background-secondary);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Add these styles to your existing theme.css */
+
+/* Chat window styles */
+.chat-window {
+  flex: 1;
+  overflow-y: scroll;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: var(--background-secondary);
+}
+
+.chat-window::-webkit-scrollbar {
+  display: none;
+}
+
+/* Message input styles */
+.message-input-container {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--background-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.message-input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  font-size: calc(15px * var(--text-scale));
+}
+
+.message-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* Code input styles */
+.code-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.code-box {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Action buttons */
+.action-button {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-size: 16px;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+}
+
+/* Welcome screen */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--background-primary);
+}
+
+.welcome-card {
+  background-color: var(--background-secondary);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.welcome-card h2 {
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* Message styles */
+.message-container {
+  padding: 2px 10px;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.message-container-user {
+  justify-content: flex-end;
+}
+
+.message-container-other {
+  justify-content: flex-start;
+}
+
+.message {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+  position: relative;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message-user {
+  background-color: var(--message-user);
+  color: var(--text-primary);
+}
+
+.message-other {
+  background-color: var(--message-other);
+  color: var(--text-primary);
+}
+
+.upvote-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.message-user .upvote-container {
+  left: -35px;
+}
+
+.message-other .upvote-container {
+  right: -35px;
+}
+
+/* Add text size controls */
+.text-size-controls {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--background-secondary);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.text-size-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  transition: opacity 0.2s ease;
+}
+
+.text-size-button:hover {
+  opacity: 0.9;
+}
+
+.text-size-display {
+  color: var(--text-primary);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Update the controls container to group theme toggle and text size */
+.controls-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Text size slider styles */
+.text-size-slider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0 12px;
+    height: 40px;
+}
+
+.text-size-icon {
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.text-size-icon.small {
+    font-size: 12px;
+}
+
+.text-size-icon.large {
+    font-size: 16px;
+}
+
+/* Slider styling */
+.slider {
+    -webkit-appearance: none;
+    width: 80px;
+    height: 2px;
+    background: var(--border-color);
+    outline: none;
+    border-radius: 1px;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+/* App header styles */
+.app-header {
+    text-align: center;
+    padding: 30px; /* Increased padding */
+    color: var(--text-primary);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background-primary);
+    z-index: 900;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 80px; /* Increased height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Update text scaling for all relevant elements */
+.welcome-card h2 {
+    font-size: calc(24px * var(--text-scale));
+}
+
+.code-box {
+    font-size: calc(16px * var(--text-scale));
+}
+
+.action-button {
+    font-size: calc(16px * var(--text-scale));
+}
+
+.message-input {
+    font-size: calc(15px * var(--text-scale));
+}
+
+/* Ensure the banner stays at the top */
+.App {
+    min-height: 100vh;
+    padding-top: 140px; /* Increased padding from 120px to 140px */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container, .welcome-container {
+    flex: 1;
+}

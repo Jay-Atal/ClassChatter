@@ -8,13 +8,12 @@ import CodeInput from './CodeInput.js';
 export default function ChatApp() {
     const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
-    // should be null
-    const [roomId, setRoomId] = useState("room_id")
+    const [roomId, setRoomId] = useState("room_id");
     const [inRoom, setInRoom] = useState(false);
 
     const handleMessageResponse = useCallback((data) => {
         console.log('MessageResponse: ' + data.text);
-        let entry = {text: data.text, fromUser: false};
+        let entry = { text: data.text, fromUser: false };
         setMessages((messages) => [...messages, entry]);
     }, []);
 
@@ -29,11 +28,9 @@ export default function ChatApp() {
 
     const handleSendMessage = (text) => {
         if (text.trim()) {
-            // Immediately add the message to the UI
             const newEntry = { text, fromUser: true };
             setMessages(prevMessages => [...prevMessages, newEntry]);
-            
-            // Send the message to the server
+
             socket.emit('message', {
                 'room_id': roomId,
                 'message': text
@@ -45,28 +42,27 @@ export default function ChatApp() {
         socket.emit('upvote', {
             'room_id': roomId,
             'increment': isUpvoted,
-        })
+        });
     };
 
     const handleJoinRoom = () => {
         setInRoom(true);
-    }
+    };
 
     const handleHostRoom = () => {
         setInRoom(true);
-    }
+    };
 
-    if(inRoom){
-    return (
-        <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto' }}>
-            <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
-            <MessageInput onSendMessage={handleSendMessage} />
-        </div>
-    );
-    }
-    else{
-        return(
-            < CodeInput join={handleJoinRoom} host={handleHostRoom} />
+    if (inRoom) {
+        return (
+            <div className="chat-container">
+                <ChatWindow messages={messages} onUpvote={handleSendUpvote} />
+                <MessageInput onSendMessage={handleSendMessage} />
+            </div>
+        );
+    } else {
+        return (
+            <CodeInput join={handleJoinRoom} host={handleHostRoom} />
         );
     }
 }

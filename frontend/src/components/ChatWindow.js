@@ -11,19 +11,7 @@ export default function ChatWindow({ messages, onUpvote }) {
     }, [messages]);
 
     return (
-        <div style={{ 
-            height: '300px', 
-            overflowY: 'scroll', 
-            border: '1px solid #ccc', 
-            marginBottom: '10px', 
-            display: 'flex', 
-            flexDirection: 'column',
-            msOverflowStyle: 'none',
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': {
-                display: 'none'
-            }
-        }}>
+        <div className="chat-window">
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',

@@ -17,16 +17,16 @@ export default function MessageInput({ onSendMessage }) {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div className="message-input-container">
             <input
+                className="message-input"
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type message here"
-                style={{ width: 'calc(100% - 100px)', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
             />
-            <button onClick={handleSendMessage} style={{ padding: '10px', marginLeft: '10px', borderRadius: '5px' }}>
+            <button className="action-button" onClick={handleSendMessage}>
                 Send
             </button>
         </div>
