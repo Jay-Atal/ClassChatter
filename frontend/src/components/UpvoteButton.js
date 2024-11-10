@@ -14,7 +14,7 @@ export default function UpvoteButton({ fromUser, onUpvote }) {
         }
         setisUpvoted(!isUpvoted);
         setUpvoteCount(newCount);
-        onUpvote(this)
+        onUpvote(upvoteCount, isUpvoted);
     };
 
     return (

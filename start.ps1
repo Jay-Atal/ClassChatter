@@ -9,8 +9,6 @@ function Cleanup {
     if ($npmProcess -and !$npmProcess.HasExited) {
         Stop-Process -Id $npmProcess.Id -Force
     }
-
-    Set-Location -Path $CWD
 }
 
 fnm env --use-on-cd | Out-String | Invoke-Expression
@@ -26,7 +24,7 @@ $flaskProcess = Start-Process -NoNewWindow -FilePath "flask" -ArgumentList "run 
 Set-Location -Path "../frontend"
 $npmProcess = Start-Process -NoNewWindow -FilePath "cmd.exe" -ArgumentList "/c npm start" -PassThru
 
-
+Set-Location -Path $CWD
 
 # Keep the script running until manually exited
 Wait-Process -Id $flaskProcess.Id, $npmProcess.Id

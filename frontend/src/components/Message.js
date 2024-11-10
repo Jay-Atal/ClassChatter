@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UpvoteButton from './UpvoteButton.js';
 
-export default function Message({ key, text, fromUser, onUpvote }) {
+export default function Message({ text, fromUser, onUpvote }) {
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [hasUpvote, setHasUpvote] = useState(false);
     // const [messageId, setMessageId] = useState(none)
@@ -9,12 +9,14 @@ export default function Message({ key, text, fromUser, onUpvote }) {
     const handleMouseEnter = () => setIsHighlighted(true);
     const handleMouseLeave = () => setIsHighlighted(false);
 
-    const handleUpvote = (upvote) => {
-        if (count >= 1) {
+    const handleUpvote = (upvoteCount, isUpvoted) => {
+        if (upvoteCount >= 1) {
             setHasUpvote(true);
-            onUpvote(this, upvote);
         }
-        else setHasUpvote(false);
+        else {
+            setHasUpvote(false);
+        }
+        onUpvote(isUpvoted);
     };
 
     return (
