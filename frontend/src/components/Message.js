@@ -9,7 +9,6 @@ export default function Message({ metadata, onUpvote }) {
     const handleMouseEnter = () => setIsHighlighted(true);
     const handleMouseLeave = () => setIsHighlighted(false);
 
-    // TODO: use metadata instead to count
     const handleUpvote = (increment) => {
         if (metadata.upvotes >= 1) {
             setHasUpvote(true);

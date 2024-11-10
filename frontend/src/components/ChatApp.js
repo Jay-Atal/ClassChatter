@@ -19,13 +19,11 @@ export default function ChatApp() {
         const entry = {
             message: data.message,
             messageId: data.messageId,
-            // TODO: don't hardcode
-            upvotes: 0,
-            // fromUser: data.fromUser,
+            upvotes: data.upvotes,
+            fromUser: data.fromUser,
         };
         setMessageTable((messageTable) => ({...messageTable, [data.messageId]: entry}));
         setMessageDisplay((messageDisplay) => [...messageDisplay, entry]);
-        console.log(entry);
         toast(data.message);
     }, [messageTable, messageDisplay]);
 
@@ -34,10 +32,9 @@ export default function ChatApp() {
         if (entry) {
             entry.upvotes = data.upvotes
         }
-        console.log(messageTable)
     }, [messageTable, messageDisplay]);
 
-  const handleJoinResponse = (roomId)=> {
+  const handleJoinResponse = useCallback((data)=> {
         setInRoom(true);
         // setRoomId(roomId);
 
@@ -47,19 +44,19 @@ export default function ChatApp() {
         //
         //     console.log(roomId)
         // })
-    }
+    });
 
-    // const handleHostResponse = ()=> {
-    //     setInRoom(true)
-    // }
+    const handleHostResponse = ((data)=> {
+        setInRoom(true)
+    });
 
     useEffect(() => {
         const newSocket = SocketIO.connect('http://localhost:50000');
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
         newSocket.on('upvote', handleUpvoteResponse);
-        // newSocket.on('host', handleHostResponse)
-        // newSocket.on('join', handleJoinResponse)
+        newSocket.on('host', handleHostResponse)
+        newSocket.on('join', handleJoinResponse)
         return () => {
             newSocket.disconnect();
         };
@@ -80,7 +77,6 @@ export default function ChatApp() {
             'messageId': metadata.messageId,
             'increment': increment,
         });
-        console.log(metadata)
     };
 
     const handleJoinRoom = () => {

@@ -72,8 +72,10 @@ def handle_receive_message(msg):
     #     }, to=room_id, skip_sid=request.sid)
     # else:
     #     emit('popup', f'Message failed to send.', to=request.sid)
+    response = {'messageId': rooms['msg_ids'], 'message': message, 'upvotes': 0}
+    emit('message', {**response, 'fromUser': False}, broadcast=True, include_self=False)
+    emit('message', {**response, 'fromUser': True}, to=request.sid)
 
-    emit('message', {'messageId': rooms['msg_ids'], 'message': message}, broadcast=True)
     rooms['msg_ids'] += 'a'
     print(rooms)
 
@@ -84,13 +86,14 @@ def handle_upvote(data):
     print(f"Received upvote: {data}")
     room_id = data.get('roomId')
     message_id = data.get('messageId')
-    upvoted = data.get('upvoted')
+    increment = data.get('increment')
 
     if not (room_id and message_id):
         return
 
     # TODO: check database for upvote count and users, increment it,
-    emit('upvote', {'messageId': message_id, 'upvotes': 100}, broadcast=True)
+    emit('upvote', {'messageId': message_id, 'upvotes': 10}, broadcast=True, include_self=False)
+    emit('upvote', {'messageId': message_id, 'upvotes': 10}, to=request.sid)
 
 
 # Flask route for serving the chat session (for example, if using MongoDB)

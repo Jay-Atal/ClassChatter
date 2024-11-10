@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 export default function UpvoteButton({ metadata, onUpvote }) {
-    const [upvoteCount, setUpvoteCount] = useState(0);
     const [isUpvoted,setisUpvoted] = useState(false);
 
     // use metadata instead for count
