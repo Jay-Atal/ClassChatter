@@ -3,8 +3,8 @@ import CodeBox from "./CodeBox";
 import CodeButton from "./CodeButton";
 import HostRoomBtn from "./HostRoomBtn";
 
-export default function CodeInput({ join, host }) {
-    const [inputValue, setInputValue] = useState('');
+export default function CodeInput({ join, host,inputValue,setInputValue }) {
+
 
     return (
         <div className="welcome-container">

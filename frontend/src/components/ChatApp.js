@@ -14,6 +14,7 @@ export default function ChatApp() {
     // should be null
     const [roomId, setRoomId] = useState("room_id")
     const [inRoom, setInRoom] = useState(false);
+    const [inputValue, setInputValue] = useState('');
 
     const handleMessageResponse = useCallback((data) => {
         const entry = {
@@ -36,19 +37,14 @@ export default function ChatApp() {
 
   const handleJoinResponse = useCallback((data)=> {
         setInRoom(true);
-        // setRoomId(roomId);
+        setRoomId(data.roomId);
+    }, []);
 
-        // socket.emit('join', {
-        //     'room_id': roomId
-        // }, (response) => {
-        //
-        //     console.log(roomId)
-        // })
-    });
+  const handleHostResponse = useCallback((data)=> {
+        setInRoom(true);
+        setRoomId(data.roomId);
+    }, []);
 
-    const handleHostResponse = ((data)=> {
-        setInRoom(true)
-    });
 
     useEffect(() => {
         const newSocket = SocketIO.connect('http://localhost:50000');
@@ -57,6 +53,8 @@ export default function ChatApp() {
         newSocket.on('upvote', handleUpvoteResponse);
         newSocket.on('host', handleHostResponse)
         newSocket.on('join', handleJoinResponse)
+        newSocket.on('popup', handleToast);
+        newSocket.on('joinResponse', handleJoinResponse)
         return () => {
             newSocket.disconnect();
         };
@@ -71,6 +69,11 @@ export default function ChatApp() {
         }
     };
 
+    const handleToast = (data) => {
+        console.log("should be toast")
+        toast(data);
+    };
+
     const handleSendUpvote = (increment, metadata) => {
         socket.emit('upvote', {
             'roomId': roomId,
@@ -80,11 +83,15 @@ export default function ChatApp() {
     };
 
     const handleJoinRoom = () => {
-        setInRoom(true);
+        // setInRoom(true);
+        socket.emit('join', {
+        'roomId': inputValue,
+        })
     };
 
     const handleHostRoom = () => {
-        setInRoom(true);
+        // setInRoom(true);
+        socket.emit('host')
     };
 
     if (inRoom) {
@@ -97,7 +104,10 @@ export default function ChatApp() {
         );
     } else {
         return (
-            <CodeInput join={handleJoinRoom} host={handleHostRoom} />
+            <>
+                <ToastContainer/>
+            <CodeInput join={handleJoinRoom} host={handleHostRoom} inputValue={inputValue} setInputValue={setInputValue} />
+                </>
         );
     }
 }

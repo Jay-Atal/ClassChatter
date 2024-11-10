@@ -10,9 +10,9 @@ from flask_socketio import SocketIO, send, join_room, leave_room, emit
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", transport=['websocket'])
 
-
 rooms: Dict[str, Room] = {}
 rooms["msg_ids"] = 'a'
+
 
 class Room:
     def __init__(self, room_id, host_id):
@@ -34,20 +34,27 @@ def on_host():
     new_room = Room(room_id, host_id)  # Create a new room with an empty message list (you can store messages in DB)
     new_room.connected_users.add(host_id)  # Add the host to the room
     join_room(room_id)  # Join the new room
-    socketio.emit('popup', {
-        'message': f'Room {room_id} created. You are now the host.'
-    }, to=room_id)
+    rooms[room_id] = new_room
+    socketio.emit('handleHostResponse', {'roomId': room_id})
+    socketio.emit('popup', f'Room {room_id} created. You are now the host.', to=room_id)
 
 
 # SocketIO event for joining an existing room
 @socketio.on('join')
-def on_join(room_id):
-    if room_id in rooms:  # Check if the room exists
+def on_join(data):
+    print(data)
+    room_id = None
+    if 'roomId' in data:
+        room_id = data['roomId']
+    if room_id is not None and room_id in rooms:  # Check if the room exists
         join_room(room_id)  # Join the room
-        rooms[room_id].connected_users.add(room_id)
-        socketio.emit('popup', f'You have joined the room {room_id}', to=request.sid)
+        rooms[room_id].connected_users.add(request.sid)
+        socketio.emit('handleJoinResponse', {'roomId': room_id})
+        socketio.emit('popup', f'You have joined the room {room_id}')
     else:
-        socketio.emit('popup', f'Room {room_id} does not exist.', to=request.sid)
+        socketio.emit('popup',
+                      f'Room {room_id} does not exist.' if room_id is not None and room_id != ""
+                      else 'Must Enter a Room ID.', to=request.sid)
 
 
 # SocketIO event for receiving a message
@@ -62,19 +69,16 @@ def handle_receive_message(msg):
 
     # Make sure the user is in the room and the room exists
     # TODO: get rooms working
-    # if room_id in rooms and request.sid in rooms[room_id].connected_users:
-    #     message_id = rooms["msg_ids"]
-    #     emit('message', {
-    #         'message': message, 'fromUser': True, 'messageId': message_id
-    #     }, to=request.sid)
-    #     emit('message', {
-    #         'message': message, 'fromUser': False, 'messageId': message_id
-    #     }, to=room_id, skip_sid=request.sid)
+    if room_id in rooms and request.sid in rooms[room_id].connected_users:
+        response = {'messageId': rooms['msg_ids'], 'message': message, 'upvotes': 0}
+        message_id = rooms["msg_ids"]
+        emit('message', {**response, 'fromUser': True})
+        emit('message', {**response, 'fromUser': False}, to=room_id, include_self=False)
+
     # else:
     #     emit('popup', f'Message failed to send.', to=request.sid)
-    response = {'messageId': rooms['msg_ids'], 'message': message, 'upvotes': 0}
-    emit('message', {**response, 'fromUser': False}, broadcast=True, include_self=False)
-    emit('message', {**response, 'fromUser': True}, to=request.sid)
+    # emit('message', {**response, 'fromUser': False}, broadcast=True, include_self=False)
+    # emit('message', {**response, 'fromUser': True}, to=request.sid)
 
     rooms['msg_ids'] += 'a'
     print(rooms)
