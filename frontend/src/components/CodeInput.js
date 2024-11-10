@@ -7,7 +7,7 @@ export default function CodeInput({join, host}){
 
     const [inputValue,setInputValue] = useState('')
     return(
-        <><HostRoomBtn />
+        <><HostRoomBtn hostclick= {host} />
         <div className="centered-flex">
             <CodeBox val={inputValue} setVal={setInputValue} />
             <CodeButton val={inputValue} setVal={setInputValue} join={join} />

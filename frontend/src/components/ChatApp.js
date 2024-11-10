@@ -29,7 +29,7 @@ export default function ChatApp() {
     // }
 
     useEffect(() => {
-        const newSocket = SocketIO.connect('http://localhost:5000');
+        const newSocket = SocketIO.connect('http://localhost:50000');
         setSocket(newSocket);
         newSocket.on('message', handleMessageResponse);
         // newSocket.on('upvote', handleUpvoteResponse);
