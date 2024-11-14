@@ -206,7 +206,7 @@ export default function ChatApp() {
         const fetchClusters = async () => {
             try {
                 console.log("Fetching clusters for room:", roomId);
-                const response = await fetch(`http://localhost:50000/api/clusters/${roomId}`);
+                const response = await fetch(`${window.location.protocol}//${window.location.hostname}:50000/api/clusters/${roomId}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

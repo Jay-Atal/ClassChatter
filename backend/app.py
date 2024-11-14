@@ -40,7 +40,7 @@ def on_host(data):
         emit('host_error', {'message': 'Username is already in use'})
         return
 
-    room_id = str(uuid.uuid4())[:8]
+    room_id = str(uuid.uuid4())[:4].upper()
     new_room = Room(room_id, username)
     rooms[room_id] = new_room
     new_room.connected_users.add(username)
@@ -55,7 +55,7 @@ def on_host(data):
 
 @socketio.on('join')
 def on_join(data):
-    room_id = data.get('roomId')
+    room_id = data.get('roomId').upper()
     username = data.get('username')
 
     if not username:
@@ -169,7 +169,7 @@ def add_message_to_cluster(room_id, query_text, message_id):
         },
         {
             "$match": {
-                "score": { "$gt": 0.4 }
+                "score": {"$gt": 0.8}
             }
         },
         {

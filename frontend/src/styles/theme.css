@@ -821,7 +821,6 @@
     top: 50%;
     transform: translateY(-50%);
     right: -56px;
-    opacity: 0;
     transition: opacity 0.2s ease;
 }
 
